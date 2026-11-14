@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#130e1c">
+<title>Universal Level List — ULL</title>
+<style>
+:root{--bg:#100d16;--panel:#191421;--panel2:#211a2c;--line:#352943;--purple:#b98aff;--purple2:#8d58d6;--text:#f5efff;--muted:#b8a9c9;--green:#65d6a0;--red:#ff7c91;--yellow:#f2c66d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#38234e 0%,var(--bg) 48%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1120px;margin:auto;padding:0 20px}
+header{border-bottom:1px solid #ffffff14;background:#100d16eF;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.08em}.logo{width:39px;height:39px;border-radius:12px;background:linear-gradient(145deg,#d1aaff,#7541b4);display:grid;place-items:center;color:#160d20;font-weight:1000;font-size:18px;box-shadow:0 5px 25px #a66be955}.brand small{display:block;font-size:9px;color:var(--muted);letter-spacing:.19em;margin-top:2px}
+nav{display:flex;gap:6px;flex-wrap:wrap}.navbtn,.btn{border:1px solid transparent;background:transparent;color:var(--muted);padding:10px 13px;border-radius:10px;font-weight:700;font-size:13px}.navbtn:hover,.navbtn.active{background:#a879df1c;color:var(--text);border-color:#a879df44}.btn.primary{background:linear-gradient(135deg,#c49aff,#9560d8);color:#170e21;border:0}.btn.secondary{background:var(--panel2);border-color:var(--line);color:var(--text)}.btn.danger{background:#4a202d;color:#ffb5c1;border-color:#713445}.btn.success{background:#173d31;color:#9af0c6;border-color:#28634d}
+main{padding:34px 0 70px}.hero{padding:35px 0 27px}.eyebrow{color:var(--purple);font-size:11px;letter-spacing:.22em;font-weight:900}.hero h1{font-size:clamp(32px,6vw,58px);line-height:1.02;margin:12px 0 12px;letter-spacing:-.045em}.hero h1 span{color:var(--purple)}.hero p{color:var(--muted);max-width:600px;line-height:1.65;margin:0}.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:27px 0 16px}.sectionhead h2{margin:0;font-size:21px}.sectionhead p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:17px 0}.field,select,textarea{width:100%;background:#100d16;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px 13px;outline:none}.field:focus,select:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px #b98aff18}.search{max-width:360px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:16px}.levelcard{overflow:hidden;background:linear-gradient(180deg,#211a2c,#191421);border:1px solid var(--line);border-radius:16px;cursor:pointer;transition:.18s}.levelcard:hover{transform:translateY(-3px);border-color:#a879df88;box-shadow:0 12px 35px #0005}.thumb{height:145px;background:linear-gradient(135deg,#41255e,#171020 60%,#6d3a88);position:relative;display:grid;place-items:center;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}.thumb .placeholder{font-size:42px;color:#e2c9ff;text-shadow:0 4px 25px #000}.rank{position:absolute;top:11px;left:11px;background:#100d16d9;border:1px solid #b98aff66;border-radius:9px;padding:6px 9px;color:#d9bcff;font-weight:900}.cardbody{padding:14px}.cardtitle{font-size:17px;font-weight:850;margin:0 0 8px}.meta{color:var(--muted);font-size:12px;line-height:1.7}.pill{display:inline-block;border-radius:999px;padding:5px 9px;background:#a879df20;color:#d9bcff;font-size:10px;font-weight:900;letter-spacing:.06em}.empty{padding:34px 18px;text-align:center;border:1px dashed var(--line);border-radius:15px;color:var(--muted);grid-column:1/-1}
+.panel{background:linear-gradient(180deg,#1d1727,#17121e);border:1px solid var(--line);border-radius:17px;padding:20px;margin:16px 0}.panel h3{margin:0 0 15px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.formgroup label{display:block;color:var(--muted);font-size:12px;font-weight:750;margin:0 0 7px}.formgroup.full{grid-column:1/-1}.hint{color:var(--muted);font-size:11px;line-height:1.5}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.recordrow{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #ffffff12}.recordrow:last-child{border:0}.recordnum{color:var(--purple);font-weight:900}.recorduser{font-weight:800}.recordmeta{font-size:11px;color:var(--muted);margin-top:3px}.percent{font-weight:900;color:#d8baff;font-size:17px}.status{font-size:10px;font-weight:900;letter-spacing:.08em;color:var(--yellow)}.hidden{display:none!important}.detailtop{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(230px,.8fr);gap:20px}.detailimage{min-height:220px;border-radius:15px;overflow:hidden;background:linear-gradient(135deg,#452568,#15101d);display:grid;place-items:center}.detailimage img{width:100%;height:100%;object-fit:cover}.detailimage .placeholder{font-size:58px;color:#e0c5ff}.detailstats{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.stat{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}.stat b{display:block;font-size:16px}.stat small{color:var(--muted);font-size:10px}
+.notice{border:1px solid #8a6a35;background:#4b371c55;color:#f2d69a;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.5;margin:15px 0}.tablehead{color:var(--muted);font-size:11px;letter-spacing:.08em;font-weight:900;padding:8px 0;border-bottom:1px solid var(--line)}
+footer{border-top:1px solid #ffffff12;padding:25px 0;color:var(--muted);font-size:11px;text-align:center}
+@media(max-width:650px){.nav{height:auto;min-height:66px;align-items:flex-start;padding:13px 0;flex-direction:column}.nav nav{width:100%;overflow:auto;flex-wrap:nowrap}.navbtn{white-space:nowrap;padding:9px 11px}.formgrid,.detailtop{grid-template-columns:1fr}.hero{padding-top:25px}.wrap{padding:0 14px}.panel{padding:15px}.search{max-width:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <div class="brand"><div class="logo">U</div><div>UNIVERSAL LEVEL LIST<small>ONE LIST. EVERY LEVEL.</small></div></div>
+  <nav>
+    <button class="navbtn active" data-page="home">Ranking</button>
+    <button class="navbtn" data-page="submit">Submit Record</button>
+    <button class="navbtn" data-page="account">Cuenta</button>
+    <button class="navbtn hidden" id="admin-nav" data-page="admin">ULL Admin</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section id="page-home">
+  <div class="hero"><div class="eyebrow">GEOMETRY DASH COMMUNITY PROJECT</div><h1>UNIVERSAL <span>LEVEL LIST</span></h1><p>Una clasificación global para todo tipo de niveles. Explora el ranking, consulta los detalles y descubre los records de la comunidad.</p></div>
+  <div class="sectionhead"><div><h2>Global Ranking</h2><p id="level-count">0 niveles registrados</p></div><span class="pill">ALL LEVELS</span></div>
+  <div class="toolbar"><input class="field search" id="search" placeholder="Buscar nivel o creador…"></div>
+  <div class="grid" id="level-grid"></div>
+</section>
+<section id="page-account" class="hidden">
+  <div class="hero"><div class="eyebrow">ULL ACCOUNT</div><h1>YOUR <span>ACCOUNT</span></h1><p>Crea una cuenta o inicia sesión para enviar records y gestionar tu perfil.</p></div>
+  <div class="panel" id="auth-panel">
+    <div class="formgrid">
+      <div class="formgroup"><label>Correo electrónico</label><input class="field" id="auth-email" type="email" autocomplete="email" required placeholder="tu@email.com"></div>
+      <div class="formgroup"><label>Contraseña</label><input class="field" id="auth-password" type="password" autocomplete="current-password" required placeholder="Mínimo 6 caracteres"></div>
+      <div class="formgroup full"><label>Nombre público (solo al crear cuenta)</label><input class="field" id="auth-display-name" maxlength="40" placeholder="Tu nombre de jugador"></div>
+    </div>
+    <div class="actions"><button class="btn primary" id="sign-in">INICIAR SESIÓN</button><button class="btn secondary" id="sign-up">CREAR CUENTA</button></div>
+    <p class="hint" id="auth-message">Al registrarte, puede que Supabase te pida confirmar el correo electrónico, según la configuración del proyecto.</p>
+  </div>
+  <div class="panel hidden" id="signed-panel">
+    <h3 id="signed-as">Sesión iniciada</h3>
+    <p class="meta" id="signed-email"></p>
+    <div class="formgroup"><label>Nombre público</label><input class="field" id="profile-name" maxlength="40" placeholder="Tu nombre de jugador"></div>
+    <div class="actions"><button class="btn secondary" id="save-profile">GUARDAR PERFIL</button><button class="btn danger" id="sign-out">CERRAR SESIÓN</button></div>
+  </div>
+</section>
+<section id="page-detail" class="hidden">
+  <button class="btn secondary" id="back-ranking">← Volver al ranking</button>
+  <div id="detail-content"></div>
+</section>
+<section id="page-submit" class="hidden">
+  <div class="hero"><div class="eyebrow">COMMUNITY SUBMISSIONS</div><h1>SUBMIT <span>RECORD</span></h1><p>Envía tu progreso para que el administrador lo revise. Los records no aparecen públicamente hasta ser aprobados.</p></div>
+  <div class="notice">Inicia sesión para enviar un record. Todos los envíos quedan pendientes hasta que el administrador los revise.</div>
+  <form class="panel" id="submit-form"><h3>Enviar un record</h3><div class="formgrid">
+    <div class="formgroup"><label>Usuario</label><input class="field" name="user" required placeholder="Tu nombre de usuario"></div>
+    <div class="formgroup"><label>Nivel</label><select name="level" id="submit-level" required><option value="">Seleccionar nivel</option></select></div>
+    <div class="formgroup"><label>Porcentaje</label><input class="field" name="percent" type="number" min="1" max="100" required placeholder="Ej. 87"></div>
+    <div class="formgroup"><label>Frecuencia (Hz)</label><input class="field" name="hz" type="number" min="1" step="1" required placeholder="Ej. 240"></div>
+    <div class="formgroup"><label>Dispositivo</label><select name="device" required><option value="">Seleccionar dispositivo</option><option>PC</option><option>Móvil</option><option>Tablet</option></select></div>
+    <div class="formgroup"><label>Vídeo de prueba (URL)</label><input class="field" name="video" type="url" placeholder="https://…"></div>
+    <div class="formgroup full"><label>Notas (opcional)</label><textarea name="notes" rows="3" placeholder="Información adicional para el administrador"></textarea></div>
+  </div><div class="actions"><button class="btn primary" type="submit">SUBMIT RECORD</button></div></form>
+</section>
+<section id="page-admin" class="hidden">
+  <div class="hero"><div class="eyebrow">PRIVATE MANAGEMENT INTERFACE</div><h1>ULL <span>ADMIN</span></h1><p>Panel de gestión para añadir niveles y revisar records enviados por jugadores.</p></div>
+  <div class="notice">El panel solo está disponible para cuentas con rol de administrador en Supabase. La seguridad real depende de las políticas RLS de la base de datos.</div>
+  <form class="panel" id="level-form"><h3>＋ Añadir nivel</h3><div class="formgrid">
+    <div class="formgroup"><label>Nombre del nivel *</label><input class="field" name="name" required placeholder="Nombre"></div>
+    <div class="formgroup"><label>Creador</label><input class="field" name="creator" placeholder="Creador"></div>
+    <div class="formgroup"><label>Verificador</label><input class="field" name="verifier" placeholder="Verificador"></div>
+    <div class="formgroup"><label>Dificultad</label><select name="difficulty"><option>Unrated / Por determinar</option><option>Easy</option><option>Normal</option><option>Hard</option><option>Harder</option><option>Insane</option><option>Easy Demon</option><option>Medium Demon</option><option>Hard Demon</option><option>Insane Demon</option><option>Extreme Demon</option></select></div>
+    <div class="formgroup"><label>Posición global</label><input class="field" name="position" type="number" min="1" placeholder="Automática si se deja vacío"></div>
+    <div class="formgroup"><label>URL de miniatura</label><input class="field" name="thumbnail" type="url" placeholder="https://…"></div>
+    <div class="formgroup full"><label>Vídeo de verificación (URL)</label><input class="field" name="verification" type="url" placeholder="https://…"></div>
+  </div><div class="actions"><button class="btn primary" type="submit">SUBMIT LEVEL</button></div></form>
+  <div class="panel"><div class="sectionhead" style="margin:0 0 10px"><div><h3 style="margin:0">Records pendientes</h3><p>Aprueba o rechaza los envíos de la comunidad.</p></div><span class="pill" id="pending-count">0 PENDING</span></div><div id="pending-list"></div></div>
+  <div class="panel"><h3>Gestionar niveles</h3><div id="manage-levels"></div></div>
+</section>
+</main>
+<footer><div class="wrap">UNIVERSAL LEVEL LIST · ULL · Proyecto comunitario no oficial de Geometry Dash.</div></footer>
+
+<script>
+// ULL · Supabase configuration
+// Paste your Project URL (API URL) and Publishable key below.
+// Never put a service_role key or database password in this file.
+const SUPABASE_URL = 'https://wfygvnutodshsvhqruii.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_m6ioKI9glT_IqYGQJh9D-w_MDUBAreT';
+
+const configured = SUPABASE_URL.startsWith('https://')
+  && !SUPABASE_URL.includes('PEGA_AQUI')
+  && SUPABASE_ANON_KEY.length > 20
+  && !SUPABASE_ANON_KEY.includes('PEGA_AQUI');
+
+let supabase = null;
+let currentUser = null;
+let currentProfile = null;
+let levels = [];
+let approvedRecords = [];
+let pendingRecords = [];
+
+const $ = (id) => document.getElementById(id);
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function notify(message){alert(message)}
+function showMessage(id, message){const el=$(id); if(el) el.textContent=message}
+function page(p){
+  document.querySelectorAll('main>section').forEach(x=>x.classList.add('hidden'));
+  $('page-'+p).classList.remove('hidden');
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
+  if(p==='home') renderLevels();
+  if(p==='admin') renderAdmin();
+  if(p==='submit') refreshLevelOptions();
+  if(p==='account') renderAccount();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
+$('search').addEventListener('input',renderLevels);
+$('back-ranking').addEventListener('click',()=>page('home'));
+
+async function loadSupabaseLibrary(){
+  // Official browser/CDN entry points documented by Supabase.
+  if(window.supabase && typeof window.supabase.createClient === 'function') return true;
+  const sources = [
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
+    'https://unpkg.com/@supabase/supabase-js@2'
+  ];
+  const errors = [];
+  for(const src of sources){
+    const result = await new Promise(resolve => {
+      const script = document.createElement('script');
+      let finished = false;
+      const finish = value => {
+        if(finished) return;
+        finished = true;
+        clearTimeout(timer);
+        script.onload = null;
+        script.onerror = null;
+        resolve(value);
+      };
+      const timer = setTimeout(() => finish('timeout'), 15000);
+      script.src = src;
+      script.async = true;
+      script.onload = () => finish(
+        window.supabase && typeof window.supabase.createClient === 'function' ? 'ok' : 'no-global'
+      );
+      script.onerror = () => finish('network-error');
+      document.head.appendChild(script);
+    });
+    if(result === 'ok') return true;
+    errors.push(src + ': ' + result);
+  }
+  console.error('Supabase JS library could not be initialized:', errors);
+  return false;
+}
+
+function configCheck(){
+  if(!configured){
+    const n=document.createElement('div');
+    n.className='notice wrap';
+    n.id='config-warning';
+    n.innerHTML='<b>Configuración pendiente:</b> abre el HTML y sustituye los dos textos PEGA_AQUI por tu API URL y tu Publishable key de Supabase. No uses una clave service_role.';
+    document.querySelector('header').after(n);
+    return false;
+  }
+  if(!window.supabase?.createClient){
+    notify('No se ha podido cargar Supabase. Comprueba tu conexión a Internet y vuelve a abrir la web.');
+    return false;
+  }
+  supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  return true;
+}
+
+async function loadProfile(){
+  currentProfile=null;
+  if(!currentUser) return;
+  const {data,error}=await supabase.from('profiles').select('id,display_name,avatar_url,country,bio,role').eq('id',currentUser.id).maybeSingle();
+  if(error){console.error(error);return}
+  currentProfile=data;
+  if(!currentProfile){
+    // The auth trigger normally creates this row. This fallback safely creates
+    // the user's own profile; it never grants administrator privileges.
+    const name=currentUser.user_metadata?.display_name || currentUser.email?.split('@')[0] || 'Player';
+    const result=await supabase.from('profiles').insert({id:currentUser.id,display_name:name,role:'user'}).select().maybeSingle();
+    if(!result.error) currentProfile=result.data;
+  }
+}
+async function loadData(){
+  const [lres,rres]=await Promise.all([
+    supabase.from('levels').select('*').order('position',{ascending:true}),
+    supabase.from('records').select('id,level_id,user_id,percentage,hz,device,video_url,notes,status,created_at').eq('status','approved').order('percentage',{ascending:false})
+  ]);
+  if(lres.error) throw lres.error;
+  if(rres.error) throw rres.error;
+  levels=(lres.data||[]).map(l=>({...l,thumbnail:l.thumbnail_url||'',verification:l.verification_video_url||'',records:[]}));
+  approvedRecords=rres.data||[];
+  const userIds=[...new Set(approvedRecords.map(r=>r.user_id).filter(Boolean))];
+  let profiles={};
+  if(userIds.length){
+    const {data:pdata,error:perr}=await supabase.from('profiles').select('id,display_name').in('id',userIds);
+    if(!perr) for(const p of (pdata||[])) profiles[p.id]=p.display_name;
+  }
+  approvedRecords.forEach(r=>{
+    const l=levels.find(x=>x.id===r.level_id);
+    if(l) l.records.push({...r,user:profiles[r.user_id]||'Player',percent:r.percentage,video:r.video_url||''});
+  });
+  renderLevels();
+  refreshLevelOptions();
+  if(currentProfile?.role==='admin') await loadPending();
+}
+async function loadPending(){
+  const {data,error}=await supabase.from('records').select('id,level_id,user_id,percentage,hz,device,video_url,notes,status,created_at').eq('status','pending').order('created_at',{ascending:true});
+  if(error) throw error;
+  pendingRecords=data||[];
+  const ids=[...new Set(pendingRecords.map(r=>r.user_id).filter(Boolean))];
+  let profiles={};
+  if(ids.length){
+    const {data:pdata}=await supabase.from('profiles').select('id,display_name').in('id',ids);
+    (pdata||[]).forEach(p=>profiles[p.id]=p.display_name);
+  }
+  pendingRecords=pendingRecords.map(r=>({...r,user:profiles[r.user_id]||'Player',percent:r.percentage,video:r.video_url||''}));
+}
+function renderLevels(){
+  const q=$('search').value.toLowerCase();
+  const list=[...levels].filter(l=>(l.name+' '+(l.creator||'')).toLowerCase().includes(q));
+  $('level-count').textContent=levels.length+' niveles registrados';
+  const grid=$('level-grid');
+  grid.innerHTML=list.length?list.map(l=>`<article class="levelcard" data-id="${esc(l.id)}"><div class="thumb">${l.thumbnail?`<img src="${esc(l.thumbnail)}" alt="Miniatura de ${esc(l.name)}" onerror="this.remove()">`:'<div class="placeholder">✦</div>'}<span class="rank">#${String(l.position||'—').padStart(2,'0')}</span></div><div class="cardbody"><h3 class="cardtitle">${esc(l.name)}</h3><div class="meta">Creator: ${esc(l.creator||'—')}<br>Verifier: ${esc(l.verifier||'—')}</div><p style="margin:11px 0 0"><span class="pill">${esc(l.difficulty||'Unrated')}</span></p></div></article>`).join(''):'<div class="empty">Todavía no hay niveles registrados o no coinciden con la búsqueda.</div>';
+  grid.querySelectorAll('.levelcard').forEach(c=>c.addEventListener('click',()=>showDetail(c.dataset.id)));
+}
+function showDetail(id){
+  const l=levels.find(x=>x.id===id); if(!l)return;
+  page('detail');
+  const records=[...(l.records||[])].sort((a,b)=>b.percent-a.percent);
+  $('detail-content').innerHTML=`<div class="sectionhead"><div><div class="eyebrow">LEVEL DETAILS</div><h2>${esc(l.name)}</h2><p>Creator: ${esc(l.creator||'—')} · Verifier: ${esc(l.verifier||'—')}</p></div><span class="pill">#${esc(l.position||'—')}</span></div><div class="detailtop"><div class="detailimage">${l.thumbnail?`<img src="${esc(l.thumbnail)}" alt="Miniatura">`:'<div class="placeholder">✦</div>'}</div><div><span class="pill">${esc(l.difficulty||'Unrated')}</span><div class="detailstats"><div class="stat"><b>#${esc(l.position||'—')}</b><small>GLOBAL RANK</small></div><div class="stat"><b>${records.length}</b><small>APPROVED RECORDS</small></div></div>${l.verification?`<a class="btn secondary" href="${esc(l.verification)}" target="_blank" rel="noopener">Verificación ↗</a>`:''}</div></div><div class="panel"><h3>Records</h3>${records.length?records.map((r,i)=>`<div class="recordrow"><div class="recordnum">${i+1}.</div><div><div class="recorduser">${esc(r.user)}</div><div class="recordmeta">${esc(r.hz)} Hz · ${esc(r.device)}</div>${r.video?`<div class="recordmeta"><a href="${esc(r.video)}" target="_blank" rel="noopener">Vídeo de prueba ↗</a></div>`:''}</div><div class="percent">${r.percent}%</div></div>`).join(''):'<div class="empty">Todavía no hay records aprobados.</div>'}</div>`;
+}
+function refreshLevelOptions(){
+  const s=$('submit-level');
+  s.innerHTML='<option value="">Seleccionar nivel</option>'+levels.map(l=>`<option value="${esc(l.id)}">${esc(l.name)}</option>`).join('');
+}
+function renderAccount(){
+  $('auth-panel').classList.toggle('hidden',!!currentUser);
+  $('signed-panel').classList.toggle('hidden',!currentUser);
+  if(currentUser){
+    $('signed-as').textContent='Sesión iniciada · '+(currentProfile?.role==='admin'?'Administrador':'Jugador');
+    $('signed-email').textContent=currentUser.email||'';
+    $('profile-name').value=currentProfile?.display_name||currentUser.user_metadata?.display_name||'';
+  }
+}
+async function refreshSession(){
+  const {data,error}=await supabase.auth.getSession();
+  if(error) throw error;
+  currentUser=data.session?.user||null;
+  await loadProfile();
+  $('admin-nav').classList.toggle('hidden',currentProfile?.role!=='admin');
+  renderAccount();
+}
+$('sign-in').addEventListener('click',async()=>{
+  const email=$('auth-email').value.trim(),password=$('auth-password').value;
+  if(!email||!password)return showMessage('auth-message','Escribe tu correo y contraseña.');
+  const {error}=await supabase.auth.signInWithPassword({email,password});
+  if(error)return showMessage('auth-message',error.message);
+  await refreshSession(); await loadData(); showMessage('auth-message','Sesión iniciada correctamente.'); page('home');
+});
+$('sign-up').addEventListener('click',async()=>{
+  const email=$('auth-email').value.trim(),password=$('auth-password').value,name=$('auth-display-name').value.trim();
+  if(!email||!password)return showMessage('auth-message','Escribe tu correo y contraseña.');
+  if(password.length<6)return showMessage('auth-message','La contraseña debe tener al menos 6 caracteres.');
+  const {data,error}=await supabase.auth.signUp({email,password,options:{data:{display_name:name||email.split('@')[0]}}});
+  if(error)return showMessage('auth-message',error.message);
+  if(data.session){
+    await refreshSession();
+    if(currentUser&&name) await supabase.from('profiles').update({display_name:name}).eq('id',currentUser.id);
+    await loadProfile(); await loadData(); renderAccount();
+  }
+  showMessage('auth-message',data.session?'Cuenta creada e iniciada.':'Cuenta creada. Revisa tu correo si Supabase solicita confirmación.');
+});
+$('sign-out').addEventListener('click',async()=>{
+  const {error}=await supabase.auth.signOut(); if(error)return notify(error.message);
+  currentUser=null;currentProfile=null; $('admin-nav').classList.add('hidden');
+  await loadData();renderAccount();page('home');
+});
+$('save-profile').addEventListener('click',async()=>{
+  if(!currentUser)return;
+  const name=$('profile-name').value.trim();
+  if(!name)return notify('Escribe un nombre público.');
+  const {error}=await supabase.from('profiles').update({display_name:name}).eq('id',currentUser.id);
+  if(error)return notify('No se pudo guardar el perfil: '+error.message);
+  await loadProfile();renderAccount();notify('Perfil guardado.');
+});
+
+$('submit-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!currentUser){notify('Inicia sesión antes de enviar un record.');page('account');return}
+  const f=new FormData(e.target),levelId=f.get('level');
+  if(!levels.some(l=>l.id===levelId))return notify('Selecciona un nivel válido.');
+  const hz=Number(String(f.get('hz')).replace(/[^\d.]/g,''));
+  if(!Number.isFinite(hz)||hz<=0)return notify('Introduce una frecuencia válida en Hz.');
+  const payload={level_id:levelId,user_id:currentUser.id,percentage:Number(f.get('percent')),hz,device:f.get('device'),video_url:String(f.get('video')||'').trim()||null,notes:String(f.get('notes')||'').trim()||null,status:'pending'};
+  const {error}=await supabase.from('records').insert(payload);
+  if(error)return notify('No se pudo enviar el record: '+error.message);
+  e.target.reset();notify('Record enviado. Queda pendiente de aprobación del administrador.');
+});
+
+$('level-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(currentProfile?.role!=='admin')return notify('No tienes permisos de administrador.');
+  const f=new FormData(e.target);
+  const pos=Number(f.get('position'))||levels.length+1;
+  const payload={name:String(f.get('name')).trim(),creator:String(f.get('creator')).trim()||null,verifier:String(f.get('verifier')).trim()||null,difficulty:f.get('difficulty'),position:pos,thumbnail_url:String(f.get('thumbnail')).trim()||null,verification_video_url:String(f.get('verification')).trim()||null};
+  const {error}=await supabase.from('levels').insert(payload);
+  if(error)return notify('No se pudo añadir el nivel: '+error.message);
+  e.target.reset();await loadData();renderAdmin();notify('Nivel añadido al ranking.');
+});
+async function renderAdmin(){
+  if(currentProfile?.role!=='admin'){notify('Esta sección es solo para administradores.');page('home');return}
+  try{await loadPending()}catch(e){console.error(e);notify('Error cargando records pendientes: '+e.message);return}
+  $('pending-count').textContent=pendingRecords.length+' PENDING';
+  const p=$('pending-list');
+  p.innerHTML=pendingRecords.length?pendingRecords.map(r=>{
+    const l=levels.find(x=>x.id===r.level_id);
+    return `<div class="panel" style="margin:10px 0;background:#17121e"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>${esc(r.user)}</b><span class="status">PENDING</span></div><div class="meta">${esc(l?.name||'Nivel eliminado')} · ${r.percent}% · ${esc(r.hz)} Hz · ${esc(r.device)}</div>${r.video?`<p><a href="${esc(r.video)}" target="_blank" rel="noopener" style="color:var(--purple)">Ver vídeo de prueba ↗</a></p>`:''}${r.notes?`<p class="meta">${esc(r.notes)}</p>`:''}<div class="actions"><button class="btn success" data-approve="${esc(r.id)}">APROBAR</button><button class="btn danger" data-reject="${esc(r.id)}">RECHAZAR</button></div></div>`
+  }).join(''):'<div class="empty">No hay records pendientes.</div>';
+  p.querySelectorAll('[data-approve]').forEach(b=>b.onclick=()=>reviewRecord(b.dataset.approve,'approved'));
+  p.querySelectorAll('[data-reject]').forEach(b=>b.onclick=()=>reviewRecord(b.dataset.reject,'rejected'));
+  const m=$('manage-levels');
+  m.innerHTML=levels.map(l=>`<div class="recordrow"><div class="recordnum">#${l.position}</div><div><div class="recorduser">${esc(l.name)}</div><div class="recordmeta">${esc(l.difficulty)}</div></div><button class="btn danger" data-delete="${esc(l.id)}">Eliminar</button></div>`).join('')||'<div class="empty">No hay niveles.</div>';
+  m.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteLevel(b.dataset.delete));
+}
+async function reviewRecord(id,status){
+  if(currentProfile?.role!=='admin')return notify('No tienes permisos.');
+  const {error}=await supabase.from('records').update({status,reviewed_by:currentUser.id,reviewed_at:new Date().toISOString()}).eq('id',id);
+  if(error)return notify('No se pudo revisar el record: '+error.message);
+  await loadData();await renderAdmin();
+}
+async function deleteLevel(id){
+  if(currentProfile?.role!=='admin')return;
+  if(!confirm('¿Eliminar este nivel y sus records?'))return;
+  const {error}=await supabase.from('levels').delete().eq('id',id);
+  if(error)return notify('No se pudo eliminar: '+error.message);
+  await loadData();await renderAdmin();
+}
+
+async function init(){
+  if(!configured){configCheck();return;}
+  const libraryLoaded=await loadSupabaseLibrary();
+  if(!libraryLoaded){
+    notify('La librería de Supabase se descargó, pero Chrome no pudo inicializarla desde el archivo local. Prueba a abrir la web desde un alojamiento web HTTPS.');
+    return;
+  }
+  if(!configCheck())return;
+  try{
+    await refreshSession();
+    await loadData();
+    supabase.auth.onAuthStateChange(async(_event,session)=>{
+      currentUser=session?.user||null;
+      // Defer profile/data queries until after the auth callback finishes.
+      setTimeout(async()=>{try{await loadProfile();$('admin-nav').classList.toggle('hidden',currentProfile?.role!=='admin');renderAccount();await loadData()}catch(e){console.error(e)}},0);
+    });
+  }catch(e){
+    console.error(e);
+    notify('Error conectando con Supabase: '+(e.message||e)+'\\nComprueba la API URL, la Publishable key y las tablas/políticas.');
+  }
+}
+document.addEventListener('DOMContentLoaded',init,{once:true});
+</script>
+</body></html>
